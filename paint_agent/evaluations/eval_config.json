@@ -1,0 +1,53 @@
+{
+  "criteria": {
+    "rubric_based_multi_turn_trajectory_quality_v1": {
+      "threshold": 0.8,
+      "judge_model_options": {
+        "judge_model": "gemini-3.5-flash",
+        "num_samples": 3
+      },
+      "rubrics": [
+        {
+          "rubric_id": "facts_from_datasheet",
+          "rubric_content": {
+            "text_property": "Цены, расход краски и типы покрытия, которые называет агент, берутся из каталога Cymbal Shops через поискового агента. Агент никогда не выдумывает и не угадывает эти значения."
+          }
+        },
+        {
+          "rubric_id": "calculation_via_calculator",
+          "rubric_content": {
+            "text_property": "Когда клиент спрашивает о литрах, банках или общей стоимости для заданной площади, агент вызывает инструмент-калькулятор расхода и не считает сам в корневом агенте."
+          }
+        },
+        {
+          "rubric_id": "state_before_calculation",
+          "rubric_content": {
+            "text_property": "Перед вызовом калькулятора расхода агент вызывает set_session_value для PRICE и COVERAGE_RATE со значениями выбранной краски."
+          }
+        },
+        {
+          "rubric_id": "cans_rounded_up",
+          "rubric_content": {
+            "text_property": "Количество банок по 2,5 л округляется ВВЕРХ до целого, а общая стоимость равна числу банок, умноженному на цену одной банки."
+          }
+        },
+        {
+          "rubric_id": "honest_about_missing_info",
+          "rubric_content": {
+            "text_property": "Если клиент спрашивает о том, чего нет в каталоге (например, о доставке, возвратах или подарочных картах), агент говорит, что у него нет такой информации, и ничего не выдумывает."
+          }
+        },
+        {
+          "rubric_id": "user_language",
+          "rubric_content": {
+            "text_property": "Агент отвечает на том же языке, на котором пишет клиент."
+          }
+        }
+      ]
+    }
+  },
+  "user_simulator_config": {
+    "model": "gemini-3.5-flash",
+    "max_allowed_invocations": 10
+  }
+}
