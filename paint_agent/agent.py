@@ -1,6 +1,7 @@
 from google.adk.agents.llm_agent import Agent
 from google.adk.tools.agent_tool import AgentTool
 
+from .calculator_agent import coverage_calculator_agent
 from .search_agent import search_agent
 from .tools import set_session_value
 
@@ -15,7 +16,14 @@ root_agent = Agent(
         "also call set_session_value twice: key PRICE with the price per "
         "2.5 L can (number only, EUR) and key COVERAGE_RATE with the "
         "coverage in square meters per liter (number only). "
+        "For any calculation of liters, cans or cost for a given area, "
+        "make sure the paint is selected and stored, then use the "
+        "coverage calculator; never do this arithmetic yourself. "
         "Answer in the user's language."
     ),
-    tools=[AgentTool(agent=search_agent), set_session_value],
+    tools=[
+        AgentTool(agent=search_agent),
+        AgentTool(agent=coverage_calculator_agent),
+        set_session_value,
+    ],
 )
